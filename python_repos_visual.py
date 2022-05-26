@@ -3,8 +3,10 @@ import requests
 from plotly.graph_objs import Bar
 from plotly import offline
 
+print('The program will create a html file which describes the most popular repos on GitHub for each Language.')
+selection = input("Please select the Language: ")
 # 执行api调用并存储响应
-url = 'https://api.github.com/search/repositories?q=language:python&sort=stars'
+url = f'https://api.github.com/search/repositories?q=language:{selection}&sort=stars'
 headers = {'Accept': 'application/vnd.github.v3+json'}
 r = requests.get(url, headers=headers)
 print(f"Status code: {r.status_code}")
@@ -40,7 +42,7 @@ data = [{
     'opacity': 0.6,
 }]
 my_layout = {
-    'title': 'Github上最受欢迎的Python项目',
+    'title': f'Github上最受欢迎的{selection}项目',
     'titlefont': {'size': 28},
     'xaxis': {
         'title': 'Repository',
@@ -55,4 +57,4 @@ my_layout = {
 }
 
 fig = {'data': data, 'layout': my_layout}
-offline.plot(fig, filename='python_repos.html')
+offline.plot(fig, filename=f'{selection}_repos.html')
